@@ -38,16 +38,6 @@ public class MyFlightsApp extends Application implements
 
 		Log.d(TAG, "App created.");
 		
-		new Thread(){
-			public void run(){
-				
-				RESTfulCalls r = new RESTfulCalls();
-				JSONObject response = r.flightInfoEx("JBU", "1413");
-				Log.d(TAG, response.toString());
-				
-				
-			}
-		}.start();
 		
 	}
 
