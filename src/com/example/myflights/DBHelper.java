@@ -29,7 +29,7 @@ class DbHelper extends SQLiteOpenHelper {
 						FlightData.C_IS_DELETED);
 		db.execSQL(sql);
 		Log.d(TAG, "Created Table: " + sql);
-		/*
+		
 		// create table of airports
 		sql = String.format("CREATE TABLE %s "
 				+ "(%s integer primary key asc, %s text, %s text)",
@@ -45,7 +45,7 @@ class DbHelper extends SQLiteOpenHelper {
 				AirlineData.C_AIRLINE_NAME, AirlineData.C_AIRLINE_LOGO);
 		db.execSQL(sql);
 
-		Log.d(TAG, "Created Table: " + sql);*/
+		Log.d(TAG, "Created Table: " + sql);
 
 		
 
@@ -55,12 +55,12 @@ class DbHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// Usually ALTER TABLE statement
 		db.execSQL("DROP TABLE if exists " + FlightData.TABLE);
-		//db.execSQL("DROP TABLE if exists " + AirlineData.TABLE);
-		//db.execSQL("DROP TABLE if exists " + AirportData.TABLE);
+		db.execSQL("DROP TABLE if exists " + AirlineData.TABLE);
+		db.execSQL("DROP TABLE if exists " + AirportData.TABLE);
 		// not supposed to do this but for dev purposes
 		onCreate(db);
-		//MyFlightsApp.flightData.airportData.insertAllAirportData();
-		//MyFlightsApp.flightData.airlineData.insertAllAirlineData();
+		MyFlightsApp.flightData.airportData.insertAllAirportData();
+		MyFlightsApp.flightData.airlineData.insertAllAirlineData();
 	}
 
 }
