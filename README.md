@@ -21,6 +21,8 @@ A service runs every 15 minutes via a alarmManager to check to see if flights ha
 This will be changed to a regular service that runs every 5 minutes as there is no need to run radio for this 
 service as more services are added that will make other calls to API.
 
+Airline Logos are stored in res/drawable
+
 Database Schema:
 ================
 
@@ -39,6 +41,8 @@ NOTE: This data is stored in assets and added to DB on first install or DB upgra
 TABLE: airlines
 COLUMNS: _id (Primary Key int), airline(text), name(text)
 NOTE: This data is stored in assets and added to DB on first install or DB upgrade
+
+
 
 
 
