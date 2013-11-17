@@ -5,8 +5,8 @@ Android Application using FlightXML 2.0 API to manage personal flights
 
 INSTALLATION: Current Version Still in Development - NO APK available to download straight to Android Device Yet
 
-1. Pull files to a local directory and point your IDE with Android SDK installed to build project.
-2. Run the Android application in debug mode.
+1. Download the ZIP file onto your local computer
+2. Import this android project into your IDE with Android SDK 
 
 Application Flow:
 =================
