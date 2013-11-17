@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Flights</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="add_flight_title">Add Flight</string>
+    <string name="add_flight_origin">From</string>
+    <string name="add_flight_destination">To</string>
+    <string name="add_flight_date">Date</string>
+    <string name="add_flight_time">Time</string>
+    <string name="add_flight_airline">Airline</string>
+    <string name="add_flight_button">Add Flight</string>
+    <string name="add_flight_number">Flight #</string>
+    <string name="my_flights_title">My Flights</string>
+    <string name="my_flights_add">+</string>
+    <string name="my_flights_logo">Airline Logo</string>
+    <string name="my_flights_scheduled">Scheduled</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="preferences_view_past_flights">View All Flights</string>
+    <string name="preferences_view_past_flights_summary">Including Past Flights</string>
+    <string name="menu_preferences">Preferences</string>
+    <string name="row_flightaware">Data From Flight XML 2.0 by FlightAware</string>
+
+</resources>

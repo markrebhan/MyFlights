@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myflights"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name="com.example.myflights.MyFlightsApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <activity
+            android:name="com.example.myflights.AddFlightActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="com.example.myflights.MyFlightsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.myflights.TEMPPrefActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service
+            android:name="com.example.myflights.RefreshFlightDataService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.example.myflights.RefreshFlightDataService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.example.myflights.RefreshDeletedReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.example.myflights.RefreshDeleteService" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
