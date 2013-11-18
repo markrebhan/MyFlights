@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,7 +26,8 @@ public class AddFlightActivity extends Activity {
 	public static String TAG = "AddFlightActivity";
 	static final String[] FROM = { AirportData.C_AIRPORT,
 			AirportData.C_AIRPORT_NAME };
-	static final String[] FROM2 = { AirlineData.C_AIRLINE, AirlineData.C_AIRLINE_NAME};
+	static final String[] FROM2 = { AirlineData.C_AIRLINE,
+			AirlineData.C_AIRLINE_NAME };
 	static final int[] TO = { R.id.dropdown_text1, R.id.dropdown_text2 };
 
 	AutoCompleteTextView origin;
@@ -41,13 +44,14 @@ public class AddFlightActivity extends Activity {
 	SimpleCursorAdapter adapterDestination;
 	SimpleCursorAdapter adapterAirline;
 	Context context;
+	ProgressDialog progressDialog;
+	private static final int DIALOG1_KEY = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_add_flight);
-		
 
 		// set activity context to this
 		context = this;
@@ -57,22 +61,21 @@ public class AddFlightActivity extends Activity {
 		airline = (AutoCompleteTextView) findViewById(R.id.Airline);
 		flight = (EditText) findViewById(R.id.Flight);
 		date = (DatePicker) findViewById(R.id.Date);
-		
-		adapterOrigin = new SimpleCursorAdapter(this, R.layout.auto_complete_row,
-				null, FROM, TO, 0);
+
+		adapterOrigin = new SimpleCursorAdapter(this,
+				R.layout.auto_complete_row, null, FROM, TO, 0);
 		origin.setAdapter(adapterOrigin);
 		new AutoCompleteAirportHelper(adapterOrigin);
-		
-		adapterDestination = new SimpleCursorAdapter(this, R.layout.auto_complete_row,
-				null, FROM, TO, 0);
+
+		adapterDestination = new SimpleCursorAdapter(this,
+				R.layout.auto_complete_row, null, FROM, TO, 0);
 		destination.setAdapter(adapterDestination);
 		new AutoCompleteAirportHelper(adapterDestination);
-		
-		adapterAirline = new SimpleCursorAdapter(this, R.layout.auto_complete_row, null, FROM2, TO, 0);
+
+		adapterAirline = new SimpleCursorAdapter(this,
+				R.layout.auto_complete_row, null, FROM2, TO, 0);
 		airline.setAdapter(adapterAirline);
 		new AutoCompleteAirlineHelper(adapterAirline);
-		
-		
 
 	}
 
@@ -90,7 +93,8 @@ public class AddFlightActivity extends Activity {
 		String dateText = Long.toString(calendar.getTimeInMillis() / 1000);
 
 		// TODO add time to date if a manual time is entered...
-
+		
+		
 		// insert in new data passing in the context of the class
 		insertDataAsync = new InsertDataAsync(context);
 		// Explicitly define the async task to this task (in case it gets
@@ -106,6 +110,19 @@ public class AddFlightActivity extends Activity {
 		return data.getText().toString();
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (id == 0) {
+			ProgressDialog dialog = new ProgressDialog(this);
+			dialog.setMessage("Adding Flight");
+			dialog.setIndeterminate(true);
+			dialog.setCancelable(true);
+			return dialog;
+		} else
+			return null;
+
+	}
+
 	// async task to run insert operation on separate thread and post success
 	// message on completion
 	// we want an explicit pointer, thus we need a static class so the thread
@@ -117,6 +134,14 @@ public class AddFlightActivity extends Activity {
 		public InsertDataAsync(Context context) {
 			mContext = context;
 		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			addFlightActivity.showDialog(DIALOG1_KEY);
+		}
+
+
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -129,6 +154,8 @@ public class AddFlightActivity extends Activity {
 				String badData = valid.validate();
 
 				if (badData == null) {
+
+					
 					// valid entry we can move to next activity
 					isValid = true;
 
@@ -170,6 +197,7 @@ public class AddFlightActivity extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			// if the current activity is not null, print the message
+			addFlightActivity.removeDialog(DIALOG1_KEY);
 			if (addFlightActivity != null) {
 				Toast.makeText(addFlightActivity, result, Toast.LENGTH_LONG)
 						.show();
@@ -179,7 +207,7 @@ public class AddFlightActivity extends Activity {
 							MyFlightsActivity.class));
 					addFlightActivity.finish();
 				}
-				
+
 				isValid = false;
 			}
 
