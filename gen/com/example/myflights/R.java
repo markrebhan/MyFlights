@@ -40,38 +40,42 @@ public final class R {
         public static final int wja=0x7f02000a;
     }
     public static final class id {
-        public static final int AddFlightScrollView=0x7f0a0000;
-        public static final int Airline=0x7f0a0005;
-        public static final int Date=0x7f0a0007;
-        public static final int Destination=0x7f0a0004;
-        public static final int Flight=0x7f0a0006;
-        public static final int Origin=0x7f0a0003;
-        public static final int Title=0x7f0a0002;
-        public static final int airline_logo=0x7f0a0016;
-        public static final int arrive=0x7f0a0015;
-        public static final int button_add=0x7f0a0001;
-        public static final int depart=0x7f0a0014;
-        public static final int dropdown_text1=0x7f0a000a;
-        public static final int dropdown_text2=0x7f0a000b;
-        public static final int flight=0x7f0a0011;
-        public static final int flight_lists=0x7f0a0009;
-        public static final int flightaware=0x7f0a000d;
-        public static final int fragment_body=0x7f0a000c;
-        public static final int from=0x7f0a0010;
-        public static final int from_name=0x7f0a0012;
-        public static final int menu_prefs=0x7f0a0018;
-        public static final int menu_refresh=0x7f0a0017;
-        public static final int status=0x7f0a000e;
-        public static final int title=0x7f0a0008;
-        public static final int to=0x7f0a000f;
-        public static final int to_name=0x7f0a0013;
+        public static final int AddFlightScrollView=0x7f0a0005;
+        public static final int Airline=0x7f0a000a;
+        public static final int Date=0x7f0a000c;
+        public static final int Destination=0x7f0a0009;
+        public static final int Flight=0x7f0a000b;
+        public static final int Origin=0x7f0a0008;
+        public static final int Title=0x7f0a0007;
+        public static final int airline_logo=0x7f0a0018;
+        public static final int arrive=0x7f0a0017;
+        public static final int button_add=0x7f0a0006;
+        public static final int depart=0x7f0a0016;
+        public static final int dropdown_text1=0x7f0a0003;
+        public static final int dropdown_text2=0x7f0a0004;
+        public static final int flight=0x7f0a0013;
+        public static final int flight_lists=0x7f0a000d;
+        public static final int flightaware=0x7f0a000f;
+        public static final int fragment_add_flight=0x7f0a0000;
+        public static final int fragment_body=0x7f0a0002;
+        public static final int fragment_title_bar=0x7f0a0001;
+        public static final int from=0x7f0a0012;
+        public static final int from_name=0x7f0a0014;
+        public static final int menu_prefs=0x7f0a001a;
+        public static final int menu_refresh=0x7f0a0019;
+        public static final int status=0x7f0a0010;
+        public static final int title=0x7f0a000e;
+        public static final int to=0x7f0a0011;
+        public static final int to_name=0x7f0a0015;
     }
     public static final class layout {
         public static final int activity_add_flight=0x7f030000;
         public static final int activity_my_flights=0x7f030001;
         public static final int auto_complete_row=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int row=0x7f030004;
+        public static final int fragment_add_flight=0x7f030003;
+        public static final int fragment_flights_list=0x7f030004;
+        public static final int fragment_title_bar=0x7f030005;
+        public static final int row=0x7f030006;
     }
     public static final class menu {
         public static final int menu=0x7f090000;
