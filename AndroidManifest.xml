@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -16,17 +16,19 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:theme="@android:style/Theme.Holo" >
         <activity
-            android:name="com.example.myflights.AddFlightActivity"
+            android:name="com.example.myflights.ActivityMyFlights"
             android:label="@string/app_name" >
-        </activity>
-        <activity android:name="com.example.myflights.MyFlightsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.myflights.ActivityAddFlight"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.example.myflights.TEMPPrefActivity"

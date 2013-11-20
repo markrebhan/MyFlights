@@ -4,102 +4,63 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MyFlightsActivity extends Activity {
-	public static final String TAG = "MyFlightsActivity";
+public class FragmentFlightList extends Fragment {
+	public static final String TAG = "FragmentFlightList";
 
-	// mappings from DB -> listview
 	static final String[] FROM = { FlightData.C_ORIGIN,
 			FlightData.C_ORIGIN_NAME, FlightData.C_DESTINATION,
 			FlightData.C_DESTINATION_NAME, FlightData.C_DEPART_TIME,
 			FlightData.C_ARRIVAL_TIME, FlightData.C_AIRLINE,
-			FlightData.C_FLIGHT, FlightData.C_STATUS, FlightData.C_FLIGHTXML_ENABLED };
+			FlightData.C_FLIGHT, FlightData.C_STATUS,
+			FlightData.C_FLIGHTXML_ENABLED };
 	static final int[] TO = { R.id.from, R.id.from_name, R.id.to, R.id.to_name,
 			R.id.depart, R.id.arrive, R.id.airline_logo, R.id.flight,
 			R.id.status, R.id.flightaware };
 
-	SimpleCursorAdapter adapter;
-
+	public static Cursor cursor;
+	public static SimpleCursorAdapter adapter;
+	
 	ImageView airlineLogo;
-	Drawable drawable;
 	ListView list;
-	Cursor cursor;
-	MyFlightsReceiver receiver;
-
-	// get shared preferences for viewing all flights
-
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_my_flights);
-		startService(new Intent(this, RefreshFlightDataService.class));
-
-		// drawable = getResources().getDrawable(R.drawable.jetblue_airways);
-		// airlineLogo = (ImageView) findViewById(R.id.airline_logo);
-		// airlineLogo.setImageDrawable(drawable);
-
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		list = (ListView) findViewById(R.id.flight_lists);
-
-		Log.d(TAG, "On Resumed");
-
-		boolean viewAll = PreferenceManager.getDefaultSharedPreferences(
-				getApplicationContext()).getBoolean("viewAllFlights", false);
-		cursor = MyFlightsApp.flightData.query(viewAll);
-
-		adapter = new SimpleCursorAdapter(this, R.layout.row, cursor, FROM, TO,
-				0);
-
-		// adapter = new CursorAdapter(this, cursor);
-
-		adapter.setViewBinder(VIEW_BINDER);
-
-		// setListAdapter(adapter);
-		list.setAdapter(adapter);
-		// register receiver
-		if (receiver == null)
-			receiver = new MyFlightsReceiver();
-		registerReceiver(receiver,
-				new IntentFilter(MyFlightsApp.ACTION_REFRESH));
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		unregisterReceiver(receiver);
-	}
-
-	public void onClick(View v) {
-		startActivity(new Intent(this, AddFlightActivity.class));
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_flights_list, container,
+				false);
 		
+		list = (ListView) view.findViewById(R.id.flight_lists);
+		
+		return view;
 	}
+	
+	// set adapter to the cursor query and call view binder to display items in desired form
+	@Override
+	public void onResume() {
+		super.onResume();
+		boolean viewAll = PreferenceManager.getDefaultSharedPreferences(
+				getActivity().getApplicationContext()).getBoolean("viewAllFlights", false);
+		cursor = MyFlightsApp.flightData.query(viewAll);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.row, cursor, FROM, TO, 0);
+		adapter.setViewBinder(VIEW_BINDER);
+		list.setAdapter(adapter);
+	}
+
+
 
 	static final ViewBinder VIEW_BINDER = new ViewBinder() {
 
@@ -205,11 +166,7 @@ public class MyFlightsActivity extends Activity {
 			case R.id.flightaware:
 				// if the entry has been flagged as using the API, display a small message saying this
 				int XMLEnabled = cursor.getInt(cursor.getColumnIndex(FlightData.C_FLIGHTXML_ENABLED));
-				
-				if (XMLEnabled == 1){
-					((TextView) view).setVisibility(View.VISIBLE);
-					((TextView) view).setText(R.string.row_flightaware);
-				}
+				if (XMLEnabled == 1) ((TextView) view).setText(R.string.row_flightaware);
 				return true;
 
 			}
@@ -218,41 +175,5 @@ public class MyFlightsActivity extends Activity {
 		}
 
 	};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent refreshIntent = new Intent(this, RefreshFlightDataService.class);
-		switch (item.getItemId()) {
-		case R.id.menu_refresh:
-			startService(refreshIntent);
-			return true;
-		case R.id.menu_prefs:
-			startActivity(new Intent(this, TEMPPrefActivity.class));
-		default:
-			return false;
-		}
-
-	}
-
-	// inner class receiver to listen for changes of data for this activity
-	class MyFlightsReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			boolean viewAll = PreferenceManager.getDefaultSharedPreferences(
-					getApplicationContext())
-					.getBoolean("viewAllFlights", false);
-			Log.d(TAG, "Broadcast Received");
-			cursor = MyFlightsApp.flightData.query(viewAll);
-			adapter.changeCursor(cursor);
-		}
-
-	}
 
 }

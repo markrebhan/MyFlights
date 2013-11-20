@@ -1,41 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_blue"
     android:orientation="vertical" >
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="15dp"
-        android:text="@string/my_flights_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ListView
-        android:id="@+id/flight_lists"
-        android:divider="@color/my_orange"
-        android:dividerHeight="1dp"
-        android:layout_width="match_parent"
+    
+ 	<fragment 
+ 	    android:id="@+id/fragment_title_bar"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="45dp"
+ 	    class="com.example.myflights.FragmentTitleBar" />
+ 	    
+    <fragment 
+        android:id="@+id/fragment_body"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:paddingTop="45dp" >
+        class="com.example.myflights.FragmentFlightList"/>
 
-    </ListView>
-
-    <Button
-        android:id="@+id/button_add"
-        android:onClick="onClick"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/my_flights_add" />
-
-</RelativeLayout>
+</LinearLayout>

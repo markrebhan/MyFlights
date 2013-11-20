@@ -5,8 +5,7 @@ import java.util.GregorianCalendar;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.Dialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,16 +13,18 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class AddFlightActivity extends Activity {
-	public static String TAG = "AddFlightActivity";
+public class FragmentAddFlight extends Fragment {
+
+	public static String TAG = "FragmentAddFlight";
 	static final String[] FROM = { AirportData.C_AIRPORT,
 			AirportData.C_AIRPORT_NAME };
 	static final String[] FROM2 = { AirlineData.C_AIRLINE,
@@ -48,39 +49,40 @@ public class AddFlightActivity extends Activity {
 	private static final int DIALOG1_KEY = 0;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_add_flight);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_add_flight, container,
+				false);
 
-		// set activity context to this
-		context = this;
+		// set activity context to getActivity()
+		context = getActivity();
 
-		origin = (AutoCompleteTextView) findViewById(R.id.Origin);
-		destination = (AutoCompleteTextView) findViewById(R.id.Destination);
-		airline = (AutoCompleteTextView) findViewById(R.id.Airline);
-		flight = (EditText) findViewById(R.id.Flight);
-		date = (DatePicker) findViewById(R.id.Date);
+		origin = (AutoCompleteTextView) view.findViewById(R.id.Origin);
+		destination = (AutoCompleteTextView) view
+				.findViewById(R.id.Destination);
+		airline = (AutoCompleteTextView) view.findViewById(R.id.Airline);
+		flight = (EditText) view.findViewById(R.id.Flight);
+		date = (DatePicker) view.findViewById(R.id.Date);
 
-		adapterOrigin = new SimpleCursorAdapter(this,
+		adapterOrigin = new SimpleCursorAdapter(getActivity(),
 				R.layout.auto_complete_row, null, FROM, TO, 0);
 		origin.setAdapter(adapterOrigin);
 		new AutoCompleteAirportHelper(adapterOrigin);
 
-		adapterDestination = new SimpleCursorAdapter(this,
+		adapterDestination = new SimpleCursorAdapter(getActivity(),
 				R.layout.auto_complete_row, null, FROM, TO, 0);
 		destination.setAdapter(adapterDestination);
 		new AutoCompleteAirportHelper(adapterDestination);
 
-		adapterAirline = new SimpleCursorAdapter(this,
+		adapterAirline = new SimpleCursorAdapter(getActivity(),
 				R.layout.auto_complete_row, null, FROM2, TO, 0);
 		airline.setAdapter(adapterAirline);
 		new AutoCompleteAirlineHelper(adapterAirline);
 
+		return view;
 	}
 
-	public void onClick(View v) {
-
+	public void onClicked() {
 		String originText = getEditTextString(origin);
 		String destinationText = getEditTextString(destination);
 		String airlineText = getEditTextString(airline);
@@ -93,34 +95,19 @@ public class AddFlightActivity extends Activity {
 		String dateText = Long.toString(calendar.getTimeInMillis() / 1000);
 
 		// TODO add time to date if a manual time is entered...
-		
-		
+
 		// insert in new data passing in the context of the class
 		insertDataAsync = new InsertDataAsync(context);
 		// Explicitly define the async task to this task (in case it gets
 		// destroyed)
-		insertDataAsync.addFlightActivity = this;
+		insertDataAsync.activityAddFlight = (ActivityAddFlight) getActivity();
 		insertDataAsync.execute(originText, destinationText, dateText,
 				airlineText, flightText);
-
 	}
 
 	// helper function to convert edittext fields into text
 	public String getEditTextString(EditText data) {
 		return data.getText().toString();
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		if (id == 0) {
-			ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setMessage("Adding Flight");
-			dialog.setIndeterminate(true);
-			dialog.setCancelable(true);
-			return dialog;
-		} else
-			return null;
-
 	}
 
 	// async task to run insert operation on separate thread and post success
@@ -134,14 +121,12 @@ public class AddFlightActivity extends Activity {
 		public InsertDataAsync(Context context) {
 			mContext = context;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			addFlightActivity.showDialog(DIALOG1_KEY);
+			activityAddFlight.showDialog(DIALOG1_KEY);
 		}
-
-
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -155,7 +140,6 @@ public class AddFlightActivity extends Activity {
 
 				if (badData == null) {
 
-					
 					// valid entry we can move to next activity
 					isValid = true;
 
@@ -197,15 +181,15 @@ public class AddFlightActivity extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			// if the current activity is not null, print the message
-			addFlightActivity.removeDialog(DIALOG1_KEY);
-			if (addFlightActivity != null) {
-				Toast.makeText(addFlightActivity, result, Toast.LENGTH_LONG)
+			activityAddFlight.removeDialog(DIALOG1_KEY);
+			if (activityAddFlight != null) {
+				Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG)
 						.show();
 
 				if (isValid) {
 					mContext.startActivity(new Intent(mContext,
-							MyFlightsActivity.class));
-					addFlightActivity.finish();
+							ActivityMyFlights.class));
+					activityAddFlight.finish();
 				}
 
 				isValid = false;
@@ -213,9 +197,10 @@ public class AddFlightActivity extends Activity {
 
 		}
 
-		AddFlightActivity addFlightActivity = null;
+		ActivityAddFlight activityAddFlight = null;
 
 	}
 
 	private InsertDataAsync insertDataAsync = null;
+
 }

@@ -3,97 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_blue"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AddFlightActivity" >
 
-    <ScrollView
-        android:id="@+id/AddFlightScrollView"
+    <fragment 
+        android:id="@+id/fragment_add_flight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/button_add" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:paddingBottom="15dp"
-                android:text="@string/add_flight_title"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <AutoCompleteTextView
-                android:id="@+id/Origin"
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-				android:layout_below="@+id/Title"
-                android:ems="10"
-                android:hint="@string/add_flight_origin"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </AutoCompleteTextView>
-
-            <AutoCompleteTextView
-                android:id="@+id/Destination"
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/Origin"
-                android:layout_alignRight="@+id/Origin"
-                android:layout_below="@+id/Origin"
-                android:layout_marginTop="14dp"
-                android:ems="10"
-                android:hint="@string/add_flight_destination"
-                android:singleLine="true" />
-
-            <AutoCompleteTextView
-                android:id="@+id/Airline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/Destination"
-                android:layout_marginTop="15dp"
-                android:ems="10"
-                android:hint="@string/add_flight_airline"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/Flight"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/Airline"
-                android:layout_marginTop="13dp"
-                android:ems="10"
-                android:hint="@string/add_flight_number" />
-
-            <DatePicker
-                android:id="@+id/Date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/Flight"
-                android:layout_below="@+id/Flight"
-                android:layout_marginTop="10dp" />
-        </RelativeLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="onClick"
-        android:text="@string/add_flight_button" />
+        android:layout_height="match_parent"
+        class="com.example.myflights.FragmentAddFlight"/>
 
 </RelativeLayout>

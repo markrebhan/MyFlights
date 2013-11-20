@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/AddFlightScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/button_add" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="15dp"
+                android:text="@string/add_flight_title"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <AutoCompleteTextView
+                android:id="@+id/Origin"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+				android:layout_below="@+id/Title"
+                android:ems="10"
+                android:hint="@string/add_flight_origin"
+                android:singleLine="true"
+                android:imeOptions="actionNext" 
+                android:nextFocusDown="@+id/Destination"
+                android:freezesText="true">
+
+                <requestFocus />
+            </AutoCompleteTextView>
+
+            <AutoCompleteTextView
+                android:id="@+id/Destination"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/Origin"
+                android:layout_alignRight="@+id/Origin"
+                android:layout_below="@+id/Origin"
+                android:layout_marginTop="14dp"
+                android:ems="10"
+                android:hint="@string/add_flight_destination"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/Airline"
+                android:freezesText="true" />
+
+            <AutoCompleteTextView
+                android:id="@+id/Airline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/Destination"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:hint="@string/add_flight_airline"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/Flight"
+                android:freezesText="true" />
+
+            <EditText
+                android:id="@+id/Flight"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/Airline"
+                android:layout_marginTop="13dp"
+                android:ems="10"
+                android:hint="@string/add_flight_number" 
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:freezesText="true"/>
+
+            <DatePicker
+                android:id="@+id/Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/Flight"
+                android:layout_below="@+id/Flight"
+                android:layout_marginTop="10dp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClick"
+        android:text="@string/add_flight_button" />
+
+</RelativeLayout>
