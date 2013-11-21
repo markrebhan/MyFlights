@@ -26,10 +26,10 @@ public class FragmentFlightList extends Fragment {
 			FlightData.C_DESTINATION_NAME, FlightData.C_DEPART_TIME,
 			FlightData.C_ARRIVAL_TIME, FlightData.C_AIRLINE,
 			FlightData.C_FLIGHT, FlightData.C_STATUS,
-			FlightData.C_FLIGHTXML_ENABLED };
+			FlightData.C_FLIGHTXML_ENABLED};
 	static final int[] TO = { R.id.from, R.id.from_name, R.id.to, R.id.to_name,
 			R.id.depart, R.id.arrive, R.id.airline_logo, R.id.flight,
-			R.id.status, R.id.flightaware };
+			R.id.status, R.id.flightaware};
 
 	public static Cursor cursor;
 	public static SimpleCursorAdapter adapter;
@@ -37,6 +37,8 @@ public class FragmentFlightList extends Fragment {
 	ImageView airlineLogo;
 	ListView list;
 	
+	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -55,7 +57,19 @@ public class FragmentFlightList extends Fragment {
 		boolean viewAll = PreferenceManager.getDefaultSharedPreferences(
 				getActivity().getApplicationContext()).getBoolean("viewAllFlights", false);
 		cursor = MyFlightsApp.flightData.query(viewAll);
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.row, cursor, FROM, TO, 0);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.row, cursor, FROM, TO, 0) {
+
+			// alternating colors this way makes it laggy
+			/*@Override 
+			public View getView(int position, View view, ViewGroup viewGroup) {
+				final View row = super.getView(position, view, viewGroup);
+				if(position % 2 == 0) row.setBackgroundColor(getResources().getColor(R.color.my_blue2));
+				else row.setBackgroundColor(getResources().getColor(R.color.my_blue3));
+				return row;
+					
+			}*/
+			
+		};
 		adapter.setViewBinder(VIEW_BINDER);
 		list.setAdapter(adapter);
 	}

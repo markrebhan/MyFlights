@@ -47,6 +47,7 @@ public class AirlineData {
 		return cursor;
 	}
 
+	// TODO move into async task to display to UI on initial load
 	public void insertAllAirlineData() {
 		//run insert on a different thread
 		new Thread() {

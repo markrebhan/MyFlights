@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -109,6 +110,9 @@ public class FragmentAddFlight extends Fragment {
 	public String getEditTextString(EditText data) {
 		return data.getText().toString();
 	}
+	
+	public void showDialog() {
+	}
 
 	// async task to run insert operation on separate thread and post success
 	// message on completion
@@ -117,6 +121,7 @@ public class FragmentAddFlight extends Fragment {
 	static class InsertDataAsync extends AsyncTask<String, Void, String> {
 
 		Context mContext;
+		FragmentDialog dialog;
 
 		public InsertDataAsync(Context context) {
 			mContext = context;
@@ -125,7 +130,11 @@ public class FragmentAddFlight extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			activityAddFlight.showDialog(DIALOG1_KEY);
+			// show dialog fragment
+			FragmentManager fm = activityAddFlight.getFragmentManager();
+			dialog = new FragmentDialog();
+			dialog.show(fm, "fragment_dialog");
+			
 		}
 
 		@Override
@@ -180,8 +189,8 @@ public class FragmentAddFlight extends Fragment {
 		// UI Thread
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			// if the current activity is not null, print the message
-			activityAddFlight.removeDialog(DIALOG1_KEY);
+			// Dismiss the dialog
+			dialog.dismiss();
 			if (activityAddFlight != null) {
 				Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG)
 						.show();

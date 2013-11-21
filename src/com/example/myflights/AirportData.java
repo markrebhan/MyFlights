@@ -44,6 +44,7 @@ public class AirportData {
 				SQLiteDatabase.CONFLICT_IGNORE);
 	}
 
+	// TODO move into async task to display to UI on initial load
 	public void insertAllAirportData() {
 		//run insert on a different thread
 		new Thread() {

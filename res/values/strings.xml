@@ -21,5 +21,6 @@
     <string name="preferences_view_past_flights_summary">Including Past Flights</string>
     <string name="menu_preferences">Preferences</string>
     <string name="row_flightaware">Data From Flight XML 2.0 by FlightAware</string>
+    <string name="dialog_text">Adding Flight...</string>
 
 </resources>
