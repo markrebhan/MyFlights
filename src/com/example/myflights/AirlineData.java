@@ -24,8 +24,6 @@ public class AirlineData {
 	public static final String C_AIRLINE_NAME = "name";
 	public static final String C_AIRLINE_LOGO = "logo";
 	
-	DbHelper dbHelper;
-	SQLiteDatabase db;
 	
 	Context context;
 	public AirlineData(Context context){this.context = context;}

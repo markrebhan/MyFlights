@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -37,7 +38,22 @@ public class FragmentFlightList extends Fragment {
 	ImageView airlineLogo;
 	ListView list;
 	
-	
+	// create callback Interface object to listen for onLongClick to pass data to Activity
+	static OnFlightSelectedListener mCallback;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		// make sure that the container activity has implemented the callback interface
+		// when attaching to the activity
+		try {
+			mCallback = (OnFlightSelectedListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + " must implement OnFlightSelected Listener");
+		}
+		
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +88,12 @@ public class FragmentFlightList extends Fragment {
 		};
 		adapter.setViewBinder(VIEW_BINDER);
 		list.setAdapter(adapter);
-	}
+		
+		// set up a listener for click and hold
+		list.setOnItemLongClickListener(new ListenerDeleteItem());
 
+			
+	}
 
 
 	static final ViewBinder VIEW_BINDER = new ViewBinder() {

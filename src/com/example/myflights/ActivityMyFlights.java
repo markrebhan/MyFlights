@@ -1,15 +1,17 @@
 package com.example.myflights;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-public class ActivityMyFlights extends Activity {
+public class ActivityMyFlights extends Activity implements OnFlightSelectedListener{
 
 	public static final String TAG = "ActivityMyFlights";
 	ReceiverRefreshListData receiver;
@@ -62,6 +64,22 @@ public class ActivityMyFlights extends Activity {
 			return false;
 		}
 
+	}
+
+	// OnFlightsSelected listener callback
+	@Override
+	public void onFlightSelected(int id, String airline, String flight) {
+		
+		// create a bundle to send data to dialog fragment
+		Bundle bundle = new Bundle();
+		bundle.putInt("id", id);
+		bundle.putStringArray("StringArray", new String [] {airline, flight});
+		
+		FragmentManager fm = getFragmentManager();
+		FragmentDialogDelete dialog = new FragmentDialogDelete();
+		dialog.setArguments(bundle);
+		dialog.show(fm, "fragment_dialog_delete");
+		
 	}
 
 }

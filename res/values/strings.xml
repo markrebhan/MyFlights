@@ -22,5 +22,10 @@
     <string name="menu_preferences">Preferences</string>
     <string name="row_flightaware">Data From Flight XML 2.0 by FlightAware</string>
     <string name="dialog_text">Adding Flight...</string>
+    <string name="dialog_delete_message">Permanently Delete Flight?</string>
+    <string name="dialog_delete_title">Delete Flight</string>
+    <string name="dialog_delete_delete">Delete</string>
+    <string name="dialog_delete_cancel">Cancel</string>
+    
 
 </resources>

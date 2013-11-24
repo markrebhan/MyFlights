@@ -94,6 +94,10 @@ public final class R {
         public static final int add_flight_time=0x7f070007;
         public static final int add_flight_title=0x7f070003;
         public static final int app_name=0x7f070000;
+        public static final int dialog_delete_cancel=0x7f070018;
+        public static final int dialog_delete_delete=0x7f070017;
+        public static final int dialog_delete_message=0x7f070015;
+        public static final int dialog_delete_title=0x7f070016;
         public static final int dialog_text=0x7f070014;
         public static final int hello_world=0x7f070002;
         public static final int menu_preferences=0x7f070012;

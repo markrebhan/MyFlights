@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-
+// this broadcast receiver works with the Flight List activity to do an async update of the list view whenever
+// broadcast is receiver (IE Data has changed)
 public class ReceiverRefreshListData extends BroadcastReceiver {
 
 	public final static String TAG = "ReceiverRefreshListData";

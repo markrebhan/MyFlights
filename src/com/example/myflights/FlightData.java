@@ -133,6 +133,13 @@ public class FlightData {
 
 	}
 	
+	// delete from table if user specifies it
+	public void userDeletesRecord(int id) {
+		db = dbHelper.getWritableDatabase();
+		String [] whereArgs = {Integer.toString(id)};
+		db.delete(TABLE, C_ID + "=?", whereArgs);
+	}
+	
 	
 
 
