@@ -21,7 +21,7 @@ public class ListenerDeleteItem extends FragmentFlightList implements OnItemLong
 		String airline = cursor.getString(cursor.getColumnIndex(FlightData.C_AIRLINE));
 		int dbID = cursor.getInt(cursor.getColumnIndex(FlightData.C_ID));
 		
-		FragmentFlightList.mCallback.onFlightSelected(dbID, airline, flightNo);
+		FragmentFlightList.mCallback.onDeleteFlightSelected(dbID, airline, flightNo);
 		
 		return true;
 	}

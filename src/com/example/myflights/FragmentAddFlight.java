@@ -1,10 +1,13 @@
 package com.example.myflights;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -18,7 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -35,8 +38,8 @@ public class FragmentAddFlight extends Fragment {
 	AutoCompleteTextView origin;
 	AutoCompleteTextView destination;
 	AutoCompleteTextView airline;
-	DatePicker date;
 	EditText flight;
+	Button dateButton;
 
 	static DataValidation valid;
 	static boolean isValid = false;
@@ -47,7 +50,23 @@ public class FragmentAddFlight extends Fragment {
 	SimpleCursorAdapter adapterAirline;
 	Context context;
 	ProgressDialog progressDialog;
-	private static final int DIALOG1_KEY = 0;
+	
+	// current date chosen
+	long date;
+	
+	//
+	ListenerSetDate mCallback;
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		try{ 
+			mCallback = (ListenerSetDate) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + " must implement OnDateSetListener Listener");
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +82,8 @@ public class FragmentAddFlight extends Fragment {
 				.findViewById(R.id.Destination);
 		airline = (AutoCompleteTextView) view.findViewById(R.id.Airline);
 		flight = (EditText) view.findViewById(R.id.Flight);
-		date = (DatePicker) view.findViewById(R.id.Date);
+		dateButton = (Button) view.findViewById(R.id.date_button);
+		// set the min date to current date
 
 		adapterOrigin = new SimpleCursorAdapter(getActivity(),
 				R.layout.auto_complete_row, null, FROM, TO, 0);
@@ -79,8 +99,25 @@ public class FragmentAddFlight extends Fragment {
 				R.layout.auto_complete_row, null, FROM2, TO, 0);
 		airline.setAdapter(adapterAirline);
 		new AutoCompleteAirlineHelper(adapterAirline);
+		
+		final Calendar c = Calendar.getInstance();
+		date = c.getTimeInMillis();
+		mCallback.setDate(date);
+		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.US).format(new Date(date));
+		dateButton.setText(formattedDate);
 
 		return view;
+	}
+
+	
+	// called before onResume so button change reflected
+	public void setDate(int year, int month, int day){
+		final Calendar c = Calendar.getInstance();
+		c.set(year, month, day, 0, 0, 0);
+		date = c.getTimeInMillis();
+		mCallback.setDate(date);
+		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.US).format(new Date(date));
+		dateButton.setText(formattedDate);
 	}
 
 	public void onClicked() {
@@ -88,13 +125,11 @@ public class FragmentAddFlight extends Fragment {
 		String destinationText = getEditTextString(destination);
 		String airlineText = getEditTextString(airline);
 		String flightText = getEditTextString(flight);
-
-		int year = date.getYear();
-		int month = date.getMonth();
-		int day = date.getDayOfMonth();
-		calendar = new GregorianCalendar(year, month, day);
-		String dateText = Long.toString(calendar.getTimeInMillis() / 1000);
-
+		// take substring of long to get rid of last 3 numbers to convert to seconds after 1970 for API
+		
+		String dateText = Long.toString(date/1000);
+		
+		
 		// TODO add time to date if a manual time is entered...
 
 		// insert in new data passing in the context of the class

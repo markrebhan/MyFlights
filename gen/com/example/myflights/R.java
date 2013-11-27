@@ -15,6 +15,7 @@ public final class R {
         public static final int my_blue2=0x7f050001;
         public static final int my_blue3=0x7f050002;
         public static final int my_orange=0x7f050003;
+        public static final int titlebar=0x7f050004;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -42,7 +43,6 @@ public final class R {
     public static final class id {
         public static final int AddFlightScrollView=0x7f0a0005;
         public static final int Airline=0x7f0a000a;
-        public static final int Date=0x7f0a000c;
         public static final int Destination=0x7f0a0009;
         public static final int Flight=0x7f0a000b;
         public static final int Origin=0x7f0a0008;
@@ -50,6 +50,7 @@ public final class R {
         public static final int airline_logo=0x7f0a001a;
         public static final int arrive=0x7f0a0019;
         public static final int button_add=0x7f0a0006;
+        public static final int date_button=0x7f0a000c;
         public static final int depart=0x7f0a0018;
         public static final int dropdown_text1=0x7f0a0003;
         public static final int dropdown_text2=0x7f0a0004;

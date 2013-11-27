@@ -39,7 +39,7 @@ public class FragmentFlightList extends Fragment {
 	ListView list;
 	
 	// create callback Interface object to listen for onLongClick to pass data to Activity
-	static OnFlightSelectedListener mCallback;
+	static OnDeleteFlightSelectedListener mCallback;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -48,7 +48,7 @@ public class FragmentFlightList extends Fragment {
 		// make sure that the container activity has implemented the callback interface
 		// when attaching to the activity
 		try {
-			mCallback = (OnFlightSelectedListener) activity;
+			mCallback = (OnDeleteFlightSelectedListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnFlightSelected Listener");
 		}

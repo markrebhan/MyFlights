@@ -73,7 +73,7 @@
 
             <EditText
                 android:id="@+id/Flight"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/Airline"
@@ -81,16 +81,20 @@
                 android:ems="10"
                 android:hint="@string/add_flight_number" 
                 android:singleLine="true"
+                android:inputType="number"
                 android:imeOptions="actionDone"
                 android:freezesText="true"/>
 
-            <DatePicker
-                android:id="@+id/Date"
+            <Button
+                android:id="@+id/date_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/Flight"
-                android:layout_below="@+id/Flight"
-                android:layout_marginTop="10dp" />
+                android:layout_alignBaseline="@+id/Flight"
+                android:layout_alignBottom="@+id/Flight"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/Flight"
+                android:onClick="showDatePickerDialog" />
+
         </RelativeLayout>
     </ScrollView>
 

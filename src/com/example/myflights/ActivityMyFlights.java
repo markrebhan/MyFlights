@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-public class ActivityMyFlights extends Activity implements OnFlightSelectedListener{
+public class ActivityMyFlights extends Activity implements OnDeleteFlightSelectedListener{
 
 	public static final String TAG = "ActivityMyFlights";
 	ReceiverRefreshListData receiver;
@@ -68,7 +68,7 @@ public class ActivityMyFlights extends Activity implements OnFlightSelectedListe
 
 	// OnFlightsSelected listener callback
 	@Override
-	public void onFlightSelected(int id, String airline, String flight) {
+	public void onDeleteFlightSelected(int id, String airline, String flight) {
 		
 		// create a bundle to send data to dialog fragment
 		Bundle bundle = new Bundle();

@@ -4,4 +4,5 @@
     <color name="my_blue2">#4869D6</color>
     <color name="my_blue3">#1437AD</color>
     <color name="my_orange">#FFB000</color>
+    <color name="titlebar">#222222</color>
 </resources>
