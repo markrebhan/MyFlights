@@ -5,15 +5,15 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-public class ActivityMyFlights extends Activity implements OnDeleteFlightSelectedListener{
+public class ActivityMyFlights extends Activity implements OnDeleteFlightSelectedListener, OnFlightSelectedListener{
 
 	public static final String TAG = "ActivityMyFlights";
+	public static final String name = "com.example.myflights.flightID";
 	ReceiverRefreshListData receiver;
 
 	@Override
@@ -81,5 +81,16 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 		dialog.show(fm, "fragment_dialog_delete");
 		
 	}
+
+	@Override
+	public void onFlightSelectedListener(int dbID) {
+		// TODO Auto-generated method stub
+		
+		
+		startActivity(new Intent(this, ActivityFlightInfo.class).putExtra(name, dbID));
+		
+	}
+
+	
 
 }

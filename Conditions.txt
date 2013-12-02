@@ -1,0 +1,22 @@
+BR Mist
+DS Dust Storm
+DU Widespread Dust
+DZ Drizzle
+FC Funnel Cloud
++FC Tornado/Water SpoutFG Smog
+FU Smoke
+GR Hail
+GS Small Hail/Snow Pellets
+HZ Haze
+IC Ice Crystals
+PE Ice Pellets
+PO Dust/Sand Whirls
+PY Spray
+RA Rain
+SA Sand
+SG Snow Grains
+SN Snow
+SQ Squall
+SS Sandstorm
+UP Unknown Precipitation (Automated Observations)
+VA Volcanic Ash

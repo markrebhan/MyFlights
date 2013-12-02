@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/date_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="4dp"/>
+    
+    <TextView
+        android:id="@+id/date_arrive_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:layout_marginTop="4dp"/>
+    
+    <TextView
+        android:id="@+id/origin_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_flight_info"
+        android:layout_marginTop="-5dp"
+        android:paddingLeft="10dp"
+        android:textSize="35sp" />
+    
+    <TextView 
+        android:id="@+id/origin_name_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/origin_flight_info"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="-6dp"
+        android:textColor="@color/text_blue"
+        android:textSize="13sp"/>
+    
+    <TextView 
+        android:id="@+id/destination_name_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/origin_name_flight_info"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:paddingTop="-4dp"
+        android:textColor="@color/text_blue"
+        android:textSize="13sp"/>
+    
+    <TextView 
+        android:id="@+id/depart_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/origin_name_flight_info"
+        android:paddingLeft="10dp"
+        android:paddingTop="-4dp"
+        android:textSize="13sp"/>
+    
+    <TextView 
+        android:id="@+id/arrive_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/origin_name_flight_info"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:paddingTop="-4dp"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/destination_flight_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/origin_name_flight_info"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:textSize="35sp" />
+
+    <ImageView
+        android:id="@+id/arrow_image"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_above="@+id/arrive_flight_info"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -5,4 +5,7 @@
     <color name="my_blue3">#1437AD</color>
     <color name="my_orange">#FFB000</color>
     <color name="titlebar">#222222</color>
+    <color name="text_blue">#00007A</color>
+    <color name="green">#007A00</color>
+    <color name="dark_grey">#232323</color>
 </resources>

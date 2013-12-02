@@ -40,6 +40,8 @@ public class FragmentFlightList extends Fragment {
 	
 	// create callback Interface object to listen for onLongClick to pass data to Activity
 	static OnDeleteFlightSelectedListener mCallback;
+	// create callback interface to listener for when onClick occurs
+	static OnFlightSelectedListener mCallback2;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -49,6 +51,7 @@ public class FragmentFlightList extends Fragment {
 		// when attaching to the activity
 		try {
 			mCallback = (OnDeleteFlightSelectedListener) activity;
+			mCallback2 = (OnFlightSelectedListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnFlightSelected Listener");
 		}
@@ -89,14 +92,16 @@ public class FragmentFlightList extends Fragment {
 		adapter.setViewBinder(VIEW_BINDER);
 		list.setAdapter(adapter);
 		
-		// set up a listener for click and hold
+		// set up a listener for click and hold and normal click
 		list.setOnItemLongClickListener(new ListenerDeleteItem());
+		list.setOnItemClickListener(new ListenerViewItem());
 
 			
 	}
 
 
 	static final ViewBinder VIEW_BINDER = new ViewBinder() {
+		
 
 		@Override
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -168,6 +173,7 @@ public class FragmentFlightList extends Fragment {
 				// TODO move this
 				// resources.getidentifier is not performance optimized so
 				// manually set res ID for logos
+				
 
 				if (airline != null) {
 					if (airline.equals("JBU"))

@@ -63,6 +63,16 @@ public class RESTfulCalls {
 		
 		
 	}
+	
+	// get latest weather conditions
+	public JSONObject MetarEx(String airport){
+		String method = "MetarEx";
+		String [] inName = {"airport", "startTime", "howMany", "offset"};
+		String [] inValue = {airport, "0", "1", "0"};
+		
+		String finalUrl = buildURL(method, inName, inValue);
+		return RequestWebService.requestWebService(finalUrl);
+	}
 
 	// method to build REST URLs
 	private String buildURL(String method, String[] inputName,

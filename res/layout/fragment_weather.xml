@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/weather_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Weather Conditions at KAUS"
+        android:textSize="15sp"
+        android:layout_marginTop="2dp"/>
+    
+    <TextView 
+        android:id="@+id/weather_updated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="07:36 AM"
+        android:textSize="11sp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/dark_grey"/>
+    
+    <TextView 
+        android:id="@+id/weather_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_title"
+        android:text="75ºF"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"/>
+
+    <ImageView
+        android:id="@+id/weather_condition"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/weather_temp"
+        android:layout_toRightOf="@+id/weather_temp" 
+        android:layout_marginLeft="10dp"/>
+    
+    <ImageView
+        android:id="@+id/weather_wind"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/weather_temp"
+        android:layout_toRightOf="@+id/weather_condition" 
+        android:layout_marginLeft="10dp"/>
+
+</RelativeLayout>

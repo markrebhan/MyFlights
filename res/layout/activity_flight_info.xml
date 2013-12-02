@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_blue3"
+    android:orientation="vertical" >
+    
+   <fragment 
+ 	    android:id="@+id/fragment_title_bar"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="45dp"
+ 	    class="com.example.myflights.FragmentTitleBar" />
+   
+   <fragment 
+ 	    android:id="@+id/fragment_flight_info"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="100dp"
+ 	    class="com.example.myflights.FragmentFlightInfo" />
+   
+   <fragment 
+ 	    android:id="@+id/fragment_status_bar"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="22dp"
+ 	    class="com.example.myflights.FragmentStatusBar" />
+   
+    <fragment 
+ 	    android:id="@+id/fragment_weather"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="68dp"
+ 	    class="com.example.myflights.FragmentWeather" />
+    
+    <fragment 
+        android:id="@+id/fragment_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.example.myflights.FragmentMap"/>
+
+</LinearLayout>

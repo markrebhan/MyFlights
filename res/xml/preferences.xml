@@ -4,5 +4,6 @@
     <CheckBoxPreference
         android:key="viewAllFlights"
         android:title="@string/preferences_view_past_flights" android:summary="@string/preferences_view_past_flights_summary"/>
+    <SwitchPreference android:key="temperature" android:switchTextOff="@string/temperature_C" android:switchTextOn="@string/temperature_F" android:title="@string/temperature_title"/>
 
 </PreferenceScreen>

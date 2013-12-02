@@ -26,6 +26,9 @@
     <string name="dialog_delete_title">Delete Flight</string>
     <string name="dialog_delete_delete">Delete</string>
     <string name="dialog_delete_cancel">Cancel</string>
+    <string name="temperature_title">Temperature</string>
+    <string name="temperature_F">°F</string>
+    <string name="temperature_C">°C</string>
     
 
 </resources>
