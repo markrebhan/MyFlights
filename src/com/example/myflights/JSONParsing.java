@@ -46,7 +46,6 @@ public class JSONParsing {
 	public static WeatherInfo parseWeatherData(JSONObject response) {
 
 		WeatherInfo weatherInfo = null;
-		Log.d(TAG, response.toString());
 		
 		try {
 			response = response.getJSONObject("MetarExResult");

@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.json.JSONObject;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,8 +17,12 @@ import android.widget.TextView;
 
 public class FragmentWeather extends Fragment{
 	
-	TextView temperature, updateTime;
 	
+	static TextView temperature;
+	static TextView updateTime;
+	static TextView weatherTitle;
+	static String airport;
+	private RefreshWeatherAsync refreshWeatherAsync = null;
 	
 	public static final String TAG = "FragmentWeather";
 	@Override
@@ -30,19 +33,25 @@ public class FragmentWeather extends Fragment{
 		temperature = (TextView) view.findViewById(R.id.weather_temp);
 		updateTime = (TextView) view.findViewById(R.id.weather_updated);
 		
+		weatherTitle = (TextView) view.findViewById(R.id.weather_title);
+		
+		
 		return view;
 	}
 
 	public void refreshWeatherData(String airport){
 		
-		RefreshWeatherAsync refreshWeatherAsync = new RefreshWeatherAsync();
-		
+		FragmentWeather.airport = airport;
+		refreshWeatherAsync = new RefreshWeatherAsync();
+		refreshWeatherAsync.activityFlightInfo = (ActivityFlightInfo) getActivity();
 		refreshWeatherAsync.execute(airport);
+		
 		
 	}
 	
-	class RefreshWeatherAsync extends AsyncTask<String,Void,WeatherInfo>{
+	static class RefreshWeatherAsync extends AsyncTask<String,Void,WeatherInfo>{
 
+		ActivityFlightInfo activityFlightInfo = null;
 		
 		@Override
 		protected WeatherInfo doInBackground(String... args) {
@@ -57,14 +66,14 @@ public class FragmentWeather extends Fragment{
 		protected void onPostExecute(WeatherInfo result) {
 			super.onPostExecute(result);
 			
-			// find this fragment and set the text to correct values
-			FragmentWeather fragment = (FragmentWeather) getFragmentManager().findFragmentById(R.id.fragment_weather);
+			// it is now safe to add the title of the weather fragment
+			weatherTitle.setText("Weather Conditions at " + airport);
 			//C or F with class to calculate
 			// get temp in C and calculate if needed
 			int temp = result.getTemperature();
 			// get preference value for temperature type
 			boolean tempType = PreferenceManager.getDefaultSharedPreferences(
-					getActivity().getApplicationContext()).getBoolean("temperature", true);
+					activityFlightInfo.getApplicationContext()).getBoolean("temperature", true);
 			String typeSymbol = "°C";
 			
 			// tempType of true signifies F
@@ -72,11 +81,11 @@ public class FragmentWeather extends Fragment{
 				temp = TemperatureConvert.cToF(temp);
 				typeSymbol = "°F";
 			}
-			fragment.temperature.setText(temp + typeSymbol);
+			temperature.setText(temp + typeSymbol);
 			
 			
 			// display last update time
-			fragment.updateTime.setText(new SimpleDateFormat("hh:mm aaa",Locale.US).format(new Date(result.getUpdateTime())));
+			updateTime.setText(new SimpleDateFormat("hh:mm aaa",Locale.US).format(new Date(result.getUpdateTime())));
 			
 		}
 		
