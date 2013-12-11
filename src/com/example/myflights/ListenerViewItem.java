@@ -1,9 +1,11 @@
 package com.example.myflights;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 
 public class ListenerViewItem extends FragmentFlightList implements
 		OnItemClickListener {
@@ -12,6 +14,7 @@ public class ListenerViewItem extends FragmentFlightList implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
+		
 		// get cursor at current position
 		Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 

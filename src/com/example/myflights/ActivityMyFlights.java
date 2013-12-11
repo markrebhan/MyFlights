@@ -9,11 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 public class ActivityMyFlights extends Activity implements OnDeleteFlightSelectedListener, OnFlightSelectedListener{
 
 	public static final String TAG = "ActivityMyFlights";
 	public static final String name = "com.example.myflights.flightID";
+	private static final String titleText = "My Flights";
 	ReceiverRefreshListData receiver;
 
 	@Override
@@ -22,6 +24,12 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_flights);
 		startService(new Intent(this, RefreshFlightDataService.class));
+		
+		// find the view for the fragment and then find the textView in that fragment and set title
+		View fragmentTB = getFragmentManager().findFragmentById(R.id.fragment_title_bar_home).getView();
+		TextView title = (TextView) fragmentTB.findViewById(R.id.title);
+		title.setText(titleText);
+		
 	}
 
 	@Override
@@ -44,7 +52,12 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 		startActivity(new Intent(this, ActivityAddFlight.class));
 
 	}
-
+	
+	// onClikcTitle XML attribute from TitleBar Fragment
+	public void onClickTitle(View view){
+		startService(new Intent(this, RefreshFlightDataService.class));
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu, menu);
@@ -83,9 +96,7 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 	}
 
 	@Override
-	public void onFlightSelectedListener(int dbID) {
-		// TODO Auto-generated method stub
-		
+	public void onFlightSelectedListener(int dbID) {		
 		
 		startActivity(new Intent(this, ActivityFlightInfo.class).putExtra(name, dbID));
 		

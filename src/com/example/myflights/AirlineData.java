@@ -22,7 +22,7 @@ public class AirlineData {
 	public static final String C_ID = "_id";
 	public static final String C_AIRLINE = "airline";
 	public static final String C_AIRLINE_NAME = "name";
-	public static final String C_AIRLINE_LOGO = "logo";
+	
 	
 	
 	Context context;

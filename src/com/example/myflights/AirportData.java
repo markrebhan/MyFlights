@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class AirportData {
 
@@ -19,6 +20,11 @@ public class AirportData {
 	public static final String C_ID = "_id";
 	public static final String C_AIRPORT = "airport";
 	public static final String C_AIRPORT_NAME = "name";
+	public static final String C_LAT = "lat";
+	public static final String C_LONG = "long";
+	public static final String C_TIMEZONE = "timezone";
+	
+	private static final String FILE = "airports.csv";
 
 	Context context;
 
@@ -33,12 +39,22 @@ public class AirportData {
 				null, C_AIRPORT);
 		return cursor;
 	}
+	
+	public Cursor queryLatLong(String airport) {
+		FlightData.db = FlightData.dbHelper.getReadableDatabase();
+		Cursor cursor = FlightData.db.query(TABLE, new String [] {C_ID, C_LAT, C_LONG}, C_AIRPORT + " LIKE '" + airport + "'" , null, null, null, null, "1");
+		Log.d("BLA", airport + " " + Integer.toString(cursor.getCount()));
+		return cursor;
+	}
 
 	 
-	public void insert(String airportCode, String airport) {
+	public void insert(String airportCode, String airport, String lat, String longi, String timezone) {
 		ContentValues values = new ContentValues();
 		values.put(C_AIRPORT, airportCode);
 		values.put(C_AIRPORT_NAME, airport);
+		values.put(C_LAT, lat);
+		values.put(C_LONG, longi);
+		values.put(C_TIMEZONE, timezone);
 		FlightData.db = FlightData.dbHelper.getWritableDatabase();
 		FlightData.db.insertWithOnConflict(TABLE, null, values,
 				SQLiteDatabase.CONFLICT_IGNORE);
@@ -47,6 +63,7 @@ public class AirportData {
 	// TODO move into async task to display to UI on initial load
 	public void insertAllAirportData() {
 		//run insert on a different thread
+		Log.d("DB", "BLA");
 		new Thread() {
 			public void run() {
 				
@@ -55,14 +72,14 @@ public class AirportData {
 
 				try {
 					AssetManager am = context.getAssets();
-					InputStream is = am.open("iata_to_icao.csv");
+					InputStream is = am.open(FILE);
 					BufferedInputStream bis = new BufferedInputStream(is);
 					InputStreamReader isr = new InputStreamReader(bis);
 					BufferedReader br = new BufferedReader(isr);
 					while ((line = br.readLine()) != null) {
-
+						
 						String[] airport = line.split(delimiter);
-						insert(airport[1], airport[2]);
+						insert(airport[1], airport[2], airport[3], airport[4], airport[5]);
 
 					}
 
