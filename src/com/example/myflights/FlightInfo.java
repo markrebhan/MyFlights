@@ -16,17 +16,13 @@ public class FlightInfo {
 	private int airlineCode;
 	
 
-	public FlightInfo(String ori, String des, String dep, String arr, String air, String fli, int XML){
+	public FlightInfo(String ori, String des, String dep, String arr, String air, String fli){
 		this.origin = ori.toUpperCase(Locale.US);
 		this.destination = des.toUpperCase(Locale.US);
 		this.departTime = dep;
 		this.arrivalTime = arr;
 		this.airline = air.toUpperCase(Locale.US);
 		this.flight = fli;
-		this.flightXMLEnabled = XML;
-		this.originCode = -1;
-		this.destinationCode = -1;
-		this.airlineCode = -1;
 	}
 
 	public int getFlightXMLEnabled() {

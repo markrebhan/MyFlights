@@ -233,6 +233,7 @@ containing a value of this type.
         public static final int Origin=0x7f060012;
         public static final int Title=0x7f060011;
         public static final int airline_logo=0x7f060036;
+        public static final int airline_logo2=0x7f060039;
         public static final int arrive=0x7f060035;
         public static final int arrive_flight_info=0x7f06001e;
         public static final int arrow_image=0x7f060020;
@@ -242,12 +243,14 @@ containing a value of this type.
         public static final int date_button=0x7f060016;
         public static final int date_flight_info=0x7f060018;
         public static final int depart=0x7f060034;
+        public static final int depart2=0x7f060037;
         public static final int depart_flight_info=0x7f06001d;
         public static final int destination_flight_info=0x7f06001f;
         public static final int destination_name_flight_info=0x7f06001c;
         public static final int dropdown_text1=0x7f06000d;
         public static final int dropdown_text2=0x7f06000e;
         public static final int flight=0x7f060031;
+        public static final int flight2=0x7f060038;
         public static final int flight_lists=0x7f060021;
         public static final int flightaware=0x7f06002d;
         public static final int fragment_add_flight=0x7f060005;
@@ -263,8 +266,8 @@ containing a value of this type.
         public static final int from_name=0x7f060032;
         public static final int hybrid=0x7f060004;
         public static final int map=0x7f060022;
-        public static final int menu_prefs=0x7f060038;
-        public static final int menu_refresh=0x7f060037;
+        public static final int menu_prefs=0x7f06003b;
+        public static final int menu_refresh=0x7f06003a;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int origin_flight_info=0x7f06001a;
@@ -301,6 +304,7 @@ containing a value of this type.
         public static final int fragment_title_bar=0x7f03000a;
         public static final int fragment_weather=0x7f03000b;
         public static final int row=0x7f03000c;
+        public static final int row2=0x7f03000d;
     }
     public static final class menu {
         public static final int menu=0x7f0b0000;

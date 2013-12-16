@@ -1,5 +1,9 @@
 package com.example.myflights;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -11,6 +15,8 @@ public class RESTfulCalls {
 	public RESTfulCalls() {
 	}
 
+	// Make the origin and destination a required field in the UI and the airline and flight optional
+	
 	// look for flight with API
 	public JSONObject findFlightXML(String origin, String destination,
 			String date, String flight) {
@@ -33,13 +39,14 @@ public class RESTfulCalls {
 		String method = "AirlineFlightSchedules";
 		String[] inName = { "startDate", "endDate", "origin", "destination",
 				"flightno", "howMany", "offset" };
-		String[] inValue = { sDateS, eDateS, origin, destination, flight, "1",
+		String[] inValue = { sDateS, eDateS, origin, destination, flight, "15",
 				"0" };
 
 		String finalUrL = buildURL(method, inName, inValue);
 
 		JSONObject response = RequestWebService.requestWebService(finalUrL);
 
+		Log.d(TAG,response.toString());
 		return response;
 
 	}

@@ -3,9 +3,12 @@ package com.example.myflights;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONObject;
+
+import com.google.android.gms.internal.gc;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -38,11 +41,11 @@ public class FragmentAddFlight extends Fragment {
 	AutoCompleteTextView origin;
 	AutoCompleteTextView destination;
 	AutoCompleteTextView airline;
+	
 	EditText flight;
 	Button dateButton;
 
-	static DataValidation valid;
-	static boolean isValid = false;
+	
 	Calendar calendar;
 	Cursor cursor;
 	SimpleCursorAdapter adapterOrigin;
@@ -51,20 +54,25 @@ public class FragmentAddFlight extends Fragment {
 	Context context;
 	ProgressDialog progressDialog;
 	
+
 	// current date chosen
 	long date;
-	
+
 	//
 	ListenerSetDate mCallback;
+	// reference interface back to activity to pass the data.
+	OnAddFlightListener mCallbackAdd;
 	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
-		try{ 
+
+		try {
 			mCallback = (ListenerSetDate) activity;
+			mCallbackAdd = (OnAddFlightListener) activity;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement OnDateSetListener Listener");
+			throw new ClassCastException(activity.toString()
+					+ " must implement ListenerSetDate or OnFlightSelectedListener");
 		}
 	}
 
@@ -99,24 +107,25 @@ public class FragmentAddFlight extends Fragment {
 				R.layout.auto_complete_row, null, FROM2, TO, 0);
 		airline.setAdapter(adapterAirline);
 		new AutoCompleteAirlineHelper(adapterAirline);
-		
+
 		final Calendar c = Calendar.getInstance();
 		date = c.getTimeInMillis();
 		mCallback.setDate(date);
-		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.US).format(new Date(date));
+		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy",
+				Locale.US).format(new Date(date));
 		dateButton.setText(formattedDate);
 
 		return view;
 	}
 
-	
 	// called before onResume so button change reflected
-	public void setDate(int year, int month, int day){
+	public void setDate(int year, int month, int day) {
 		final Calendar c = Calendar.getInstance();
 		c.set(year, month, day, 0, 0, 0);
 		date = c.getTimeInMillis();
 		mCallback.setDate(date);
-		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.US).format(new Date(date));
+		String formattedDate = new SimpleDateFormat("EEE, MMM dd yyyy",
+				Locale.US).format(new Date(date));
 		dateButton.setText(formattedDate);
 	}
 
@@ -125,19 +134,19 @@ public class FragmentAddFlight extends Fragment {
 		String destinationText = getEditTextString(destination);
 		String airlineText = getEditTextString(airline);
 		String flightText = getEditTextString(flight);
-		// take substring of long to get rid of last 3 numbers to convert to seconds after 1970 for API
-		
-		String dateText = Long.toString(date/1000);
-		
-		
+		// take substring of long to get rid of last 3 numbers to convert to
+		// seconds after 1970 for API
+
+		String dateText = Long.toString(date / 1000);
+
 		// TODO add time to date if a manual time is entered...
 
 		// insert in new data passing in the context of the class
-		insertDataAsync = new InsertDataAsync(context);
+		getDataAsync = new GetDataAsync(context, mCallbackAdd);
 		// Explicitly define the async task to this task (in case it gets
 		// destroyed)
-		insertDataAsync.activityAddFlight = (ActivityAddFlight) getActivity();
-		insertDataAsync.execute(originText, destinationText, dateText,
+		getDataAsync.activityAddFlight = (ActivityAddFlight) getActivity();
+		getDataAsync.execute(originText, destinationText, dateText,
 				airlineText, flightText);
 	}
 
@@ -145,21 +154,29 @@ public class FragmentAddFlight extends Fragment {
 	public String getEditTextString(EditText data) {
 		return data.getText().toString();
 	}
-	
+
 	public void showDialog() {
 	}
 
-	// async task to run insert operation on separate thread and post success
-	// message on completion
+	/* 
+	 * An asynctask to make the REST call and save the results in a list and pass to host activity for
+	 * further processing
+	 */
 	// we want an explicit pointer, thus we need a static class so the thread
 	// will complete in case the activity is cancelled early (Screen Rotation)
-	static class InsertDataAsync extends AsyncTask<String, Void, String> {
+	static class GetDataAsync extends AsyncTask<String, Void, String> {
 
 		Context mContext;
 		FragmentDialog dialog;
-
-		public InsertDataAsync(Context context) {
-			mContext = context;
+		List<FlightInfo> allPossibleFlights;
+		FlightInfoExtended info;
+		OnAddFlightListener mCallbackAdd;
+		DataValidation valid;
+		boolean isValid = false;
+		
+		public GetDataAsync(Context context, OnAddFlightListener mCallbackAdd) {
+			this.mContext = context;
+			this.mCallbackAdd = mCallbackAdd;
 		}
 
 		@Override
@@ -169,15 +186,15 @@ public class FragmentAddFlight extends Fragment {
 			FragmentManager fm = activityAddFlight.getFragmentManager();
 			dialog = new FragmentDialog();
 			dialog.show(fm, "fragment_dialog");
-			
+
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
 			try {
 
-				FlightInfo info = new FlightInfo(params[0], params[1],
-						params[2], null, params[3], params[4], 0);
+				info = new FlightInfoExtended(params[0],
+						params[1], params[2], null, params[3], params[4], 0);
 				// validate data
 				valid = new DataValidation(info);
 				String badData = valid.validate();
@@ -189,34 +206,46 @@ public class FragmentAddFlight extends Fragment {
 
 					// if (info.getDepartTime() )
 					// make webservice call
-					RESTfulCalls webcall = new RESTfulCalls();
 					// returns a json object with an array of size one in it,
 					// there is no array (IE no "[" ) if there is an error or no
 					// data
-					JSONObject response = webcall.findFlightXML(
-							info.getOrigin(), info.getDestination(),
-							info.getDepartTime(), info.getFlight());
+					RESTfulCalls webcall = new RESTfulCalls();
 
-					Log.d(TAG, response.toString());
+					allPossibleFlights = JSONParsing
+							.parseScheduledFlight(webcall.findFlightXML(
+									info.getOrigin(), info.getDestination(),
+									info.getDepartTime(), info.getFlight()));
 
-					// check to see if there is an entry in flight XML and
-					// update and appropriate values (exact times, airline, etc)
-					info = JSONParsing.parseScheduledFlight(response, info);
+					/*if (allPossibleFlights.size() > 0) {
+						FlightInfo TEMP = allPossibleFlights.get(0);
+						info.setFlightXMLEnabled(1);
+						info.setAirline(TEMP.getAirline());
+						info.setFlight(TEMP.getFlight());
+						info.setDepartTime(TEMP.getDepartTime());
+						info.setArrivalTime(TEMP.getArrivalTime());
+						// TODO THIS WILL MOVE TO NEW DIALOG TO PICK CORRECT
+						// FLIGHT;
+						// set airline and flight from json response;
+						int id = MyFlightsApp.flightData.queryEntityID(
+								info.getAirline(), "airlines", "airline");
+						info.setAirlineCode(id);
+					}
 
 					MyFlightsApp.flightData.insertData(info.getOriginCode(),
 							info.getDestinationCode(), info.getDepartTime(),
 							info.getArrivalTime(), info.getAirlineCode(),
-							info.getFlight(), info.getFlightXMLEnabled());
-
-					return "Successfully added " + info.getAirline()
-							+ " flight " + info.getFlight();
+							info.getFlight(), info.getFlightXMLEnabled());*/
+					// return null if there were no errors
+					
+					
+					return null;
 				} else {
 					return badData;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "Failed to add " + params[3] + " flight " + params[4]
-						+ " due to unknown error.";
+				// return error
+				return e.toString();
 			}
 
 		}
@@ -226,14 +255,19 @@ public class FragmentAddFlight extends Fragment {
 			super.onPostExecute(result);
 			// Dismiss the dialog
 			dialog.dismiss();
-			if (activityAddFlight != null) {
-				Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG)
-						.show();
 
+			if (activityAddFlight != null) {
+				
+				// callback to activity if no errors have occurred
 				if (isValid) {
-					mContext.startActivity(new Intent(mContext,
-							ActivityMyFlights.class));
-					activityAddFlight.finish();
+					
+					mCallbackAdd.onAddFlightListener(allPossibleFlights, info);
+					
+				}
+				else{
+					// toast the error to UI for user to digest
+					Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG)
+					.show();
 				}
 
 				isValid = false;
@@ -245,6 +279,6 @@ public class FragmentAddFlight extends Fragment {
 
 	}
 
-	private InsertDataAsync insertDataAsync = null;
+	private GetDataAsync getDataAsync = null;
 
 }

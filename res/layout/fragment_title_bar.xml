@@ -10,6 +10,8 @@
         android:id="@+id/button_title"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:scaleType="centerCrop"
+        android:padding="5dp"
         android:onClick="onClickTitle"/>
     
     <TextView

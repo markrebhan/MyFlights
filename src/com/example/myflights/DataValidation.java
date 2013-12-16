@@ -12,7 +12,7 @@ public class DataValidation {
 		if(!validAirport1()) return "Not a valid departure airport.";
 		else if(!validAirport2()) return "Not a valid arrival airport.";
 		else if(!validAirline()) return "Not a valid airline";
-		else if(!validFlight(info.getFlight())) return "Not a valid flight.";
+		//else if(!validFlight(info.getFlight())) return "Not a valid flight.";
 		else if(!validDate(info.getDepartTime())) return "Date cannot be in the past.";
 		else if(!MyFlightsApp.flightData.queryForDup(info.getAirlineCode(),info.getFlight(),info.getDepartTime())) return "Cannot insert duplicate flight!";
 		else return null;
@@ -42,6 +42,7 @@ public class DataValidation {
 	}
 	
 	private boolean validAirline() {
+		if(info.getAirline().length() == 0) return true;
 		if(info.getAirline().length() < 3) return false;
 		info.setAirline(info.getAirline().substring(0, 3));
 		int id = MyFlightsApp.flightData.queryEntityID(info.getAirline(), "airlines", "airline");
@@ -50,14 +51,6 @@ public class DataValidation {
 		else return true;
 	}
 	
-	private boolean validFlight(String text) {
-		boolean valid = false;
-		try{
-			Integer.parseInt(text);
-			if(text.length() > 0) valid = true;
-		} catch (Exception e){}
-		return valid;
-	}
 	
 	//TODO validate again if an actual time is found in API
 	private boolean validDate(String text) {

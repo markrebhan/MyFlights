@@ -9,9 +9,9 @@
     <string name="add_flight_destination">To</string>
     <string name="add_flight_date">Date</string>
     <string name="add_flight_time">Time</string>
-    <string name="add_flight_airline">Airline</string>
+    <string name="add_flight_airline">Airline (Optional)</string>
     <string name="add_flight_button">Add Flight</string>
-    <string name="add_flight_number">Flight #</string>
+    <string name="add_flight_number">Flight# (Optional)</string>
     <string name="my_flights_title">My Flights</string>
     <string name="my_flights_add">+</string>
     <string name="my_flights_logo">Airline Logo</string>
