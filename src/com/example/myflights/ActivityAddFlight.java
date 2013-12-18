@@ -16,9 +16,10 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 public class ActivityAddFlight extends Activity implements OnDateSetListener,
-		ListenerSetDate, OnAddFlightListener {
+		ListenerSetDate, OnAddFlightListener, OnSelectFlightAdd {
 
 	public static final String TAG = "ActivityAddFlight";
+	
 	
 	long date;
 
@@ -70,7 +71,10 @@ public class ActivityAddFlight extends Activity implements OnDateSetListener,
 	public void onAddFlightListener(List<FlightInfo> flights,
 			FlightInfoExtended info) {
 
-		Log.d(TAG, "MESSAGE RECEIVED");
+		// set the app object to list (TEMP)
+		MyFlightsApp.flights = flights;
+		// set finalInfo so it can be used in other methods
+		
 		
 		/*
 		 * Pass in the flightinfoextended object that was created earlier
@@ -95,11 +99,23 @@ public class ActivityAddFlight extends Activity implements OnDateSetListener,
 			insertDataAsync.execute(info);
 		}
 		// CASE 3: Multiple flights returned from WebCall
+		// Open up a dialog to pick a flight
 		else{
+			
+			FragmentManager fm = getFragmentManager();
+			FragmentDialogFlights flightPicker = new FragmentDialogFlights();
+			flightPicker.show(fm, "fragment_flight_picker");
 			
 		}
 
 	}
+	
+	@Override
+	public void onSelectFlightAdd(FlightInfoExtended info) {
+		// listener callback and add selected flight to DB
+		insertDataAsync.execute(info);
+	}
+
 
 	/*
 	 * An asynctask to insert flight data into DB
@@ -160,4 +176,5 @@ public class ActivityAddFlight extends Activity implements OnDateSetListener,
 	}
 	private InsertDataAsync insertDataAsync = null;
 
+	
 }

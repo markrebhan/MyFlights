@@ -201,42 +201,19 @@ public class FragmentAddFlight extends Fragment {
 
 				if (badData == null) {
 
-					// valid entry we can move to next activity
+					// valid entry we can move on to next action
 					isValid = true;
 
 					// if (info.getDepartTime() )
 					// make webservice call
 					// returns a json object with an array of size one in it,
-					// there is no array (IE no "[" ) if there is an error or no
-					// data
+					// there is no array (IE no "[" ) if there is an error or no data
 					RESTfulCalls webcall = new RESTfulCalls();
 
 					allPossibleFlights = JSONParsing
 							.parseScheduledFlight(webcall.findFlightXML(
 									info.getOrigin(), info.getDestination(),
 									info.getDepartTime(), info.getFlight()));
-
-					/*if (allPossibleFlights.size() > 0) {
-						FlightInfo TEMP = allPossibleFlights.get(0);
-						info.setFlightXMLEnabled(1);
-						info.setAirline(TEMP.getAirline());
-						info.setFlight(TEMP.getFlight());
-						info.setDepartTime(TEMP.getDepartTime());
-						info.setArrivalTime(TEMP.getArrivalTime());
-						// TODO THIS WILL MOVE TO NEW DIALOG TO PICK CORRECT
-						// FLIGHT;
-						// set airline and flight from json response;
-						int id = MyFlightsApp.flightData.queryEntityID(
-								info.getAirline(), "airlines", "airline");
-						info.setAirlineCode(id);
-					}
-
-					MyFlightsApp.flightData.insertData(info.getOriginCode(),
-							info.getDestinationCode(), info.getDepartTime(),
-							info.getArrivalTime(), info.getAirlineCode(),
-							info.getFlight(), info.getFlightXMLEnabled());*/
-					// return null if there were no errors
-					
 					
 					return null;
 				} else {
@@ -259,16 +236,9 @@ public class FragmentAddFlight extends Fragment {
 			if (activityAddFlight != null) {
 				
 				// callback to activity if no errors have occurred
-				if (isValid) {
-					
-					mCallbackAdd.onAddFlightListener(allPossibleFlights, info);
-					
-				}
-				else{
-					// toast the error to UI for user to digest
-					Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG)
-					.show();
-				}
+				if (isValid) mCallbackAdd.onAddFlightListener(allPossibleFlights, info);
+				// toast the error to UI for user to digest
+				else Toast.makeText(activityAddFlight, result, Toast.LENGTH_LONG).show();
 
 				isValid = false;
 			}

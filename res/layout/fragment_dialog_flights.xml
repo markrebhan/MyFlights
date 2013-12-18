@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_dialog_flights"
+    android:layout_width="200dp"
+    android:layout_height="250dp"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+    
+ <ListView
+        android:id="@+id/dialog_flight_lists"
+        android:divider="@color/my_orange"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </ListView>
+    
+</LinearLayout>

@@ -5,23 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/my_blue2" >
 
-
-
-
-   
-  
-    
-    <TextView
-        android:id="@+id/depart2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="50dp"
-        android:layout_below="@+id/flight"
-        android:layout_marginTop="-4dp"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
     <TextView
         android:id="@+id/flight2"
         android:layout_width="wrap_content"
@@ -29,9 +12,20 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="2dp"
         android:text="Small Text"
         android:textSize="24sp"/>
+    
+    <TextView
+        android:id="@+id/depart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp"
+        android:layout_below="@+id/flight2"
+        android:layout_marginTop="-4dp"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
     
     <ImageView
         android:id="@+id/airline_logo2"
@@ -39,7 +33,6 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_margin="5dp"/>
 
 </RelativeLayout>

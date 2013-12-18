@@ -1,66 +1,85 @@
 package com.example.myflights;
 
+import java.util.List;
+
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class FragmentDialogFlights extends DialogFragment {
 
 	ListView list;
-	
-	public FragmentDialogFlights() {}; // Empty constructor required for DialogFragment
+	List<FlightInfo> flights = MyFlightsApp.flights;
+	OnSelectFlightAdd mCallback;
+
+	public FragmentDialogFlights() {
+	}; // Empty constructor required for DialogFragment
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_flights_list, container);
-		list = (ListView) view.findViewById(R.id.flight_lists);
-		list.setAdapter(new BaseAdapter() {
-			
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// make sure that the container activity has implemented the callback
+		// interface
+		// when attaching to the activity
+		try {
+			mCallback = (OnSelectFlightAdd) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnSelectFlightAdd Listener");
+		}
+
+	}
+
+	@Override
+	public View onCreateView(final LayoutInflater inflater,
+			ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_dialog_flights,
+				container);
+		// TODO Make the title a custom view
+		getDialog().setTitle(
+				flights.get(0).getOrigin() + " -> "
+						+ flights.get(0).getDestination());
+
+		// use the custom array adapter to populate listview of dialog
+		list = (ListView) view.findViewById(R.id.dialog_flight_lists);
+		final CustomRowArrayAdapter arrayAdapter = new CustomRowArrayAdapter(
+				getActivity(), R.layout.row2, flights);
+		list.setAdapter(arrayAdapter);
+
+		// TODO address setonclick
+		list.setOnItemClickListener(new OnItemClickListener() {
+
+			// Retreive all the the flight information on click and pass back to
+			// activity via callback
 			@Override
-			public View getView(int positions, View convertView, ViewGroup parent) {
-				View row = null;
-				if (convertView == null){
-					row = inflater.inflate(R.layout.row2, parent, false);
-					
-				}
-				
-				
-				else row = convertView;
-				TextView textView = (TextView) row.findViewById(R.id.flight2);
-				switch (positions) {	
-			case 0: textView.setText("Random"); break;
-	        case 1: textView.setText("Community favourites"); break;
-	        case 2: textView.setText("Change image"); break;
-	        case 3: textView.setText("Share"); break;
-	        case 4: textView.setText("Informations"); break;
-				}
-				return row;
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				// the arrayadapter view corresponds to items in list in terms
+				// of positions
+				FlightInfo info = (FlightInfo) parent
+						.getItemAtPosition(position);
+				FlightInfoExtended finalInfo = new FlightInfoExtended(info.getOrigin(), info.getDestination(), info.getDepartTime(),
+						info.getArrivalTime(), info.getAirline(), info.getFlight(), 1);
+				//TODO MOVE THIS
+				int id2 = MyFlightsApp.flightData.queryEntityID(info.getOrigin(), "airports", "airport");
+				finalInfo.setOriginCode(id2);
+				int id3 = MyFlightsApp.flightData.queryEntityID(info.getDestination(), "airports", "airport");
+				finalInfo.setDestinationCode(id3);
+				mCallback.onSelectFlightAdd(finalInfo);
+
 			}
-			
-			@Override
-			public long getItemId(int arg0) {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			
-			@Override
-			public Object getItem(int arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
+
 		});
+
 		return view;
 	}
 

@@ -1,5 +1,7 @@
 package com.example.myflights;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 import android.app.Application;
@@ -24,6 +26,7 @@ public class MyFlightsApp extends Application implements
 	static FlightData flightData;
 	SharedPreferences prefs;
 	static final Intent test = new Intent(ACTION_REFRESH_DELETE);
+	static List<FlightInfo> flights;
 
 	@Override
 	public void onCreate() {
@@ -31,23 +34,23 @@ public class MyFlightsApp extends Application implements
 
 		flightData = new FlightData(this);
 		
+		// set max number of howMany parameters in API calls
+		new Thread(){
+			public void run(){
+				RESTfulCalls rc = new RESTfulCalls();
+				rc.SetMaximumResultSize();
+			}
+		};
+		
 		// get current preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// notify this listener when a changed has been made
 		prefs.registerOnSharedPreferenceChangeListener(this);
+		
 
 		Log.d(TAG, "App created.");
 		
-		/*new Thread(){
-			public void run(){
-				
-				RESTfulCalls r = new RESTfulCalls();
-				JSONObject response = r.flightInfoEx("JBU", "1413");
-				Log.d(TAG, response.toString());
-				
-				
-			}
-		}.start();*/
+		
 		
 	}
 

@@ -23,26 +23,39 @@ public class JSONParsing {
 			// data
 			response = response.getJSONObject("AirlineFlightSchedulesResult");
 			JSONArray FlightXMLInfo = response.getJSONArray("data");
+			boolean dup = false;
 
-			
 			for (int i = 0; i < FlightXMLInfo.length(); i++) {
 				// get the ith JSONobject in the array
 				JSONObject obj = FlightXMLInfo.getJSONObject(i);
-				
+
 				// parse ident data into flight and number
 				String ident = obj.getString("actual_ident");
 				if (ident.equals(""))
 					ident = obj.getString("ident");
-				// create a new flightinfo base object and add the entry into it
-				FlightInfo info = new FlightInfo(obj.getString("origin"),
-						obj.getString("destination"),
-						obj.getString("departuretime"),
-						obj.getString("arrivaltime"), ident.substring(0, 3),
-						ident.substring(4));
-				
-				flightList.add(info);
 
+				// check for duplicate flights that already exist
+				for (int j = 0; j < flightList.size(); j++) {
+					if (ident.equals(flightList.get(j).getAirline()
+							+ flightList.get(j).getFlight())) {
+						dup = true;
+						break;
+					}
+				}
+
+				// create a new flightinfo base object and add the entry into it
+				if (!dup) {
+					FlightInfo info = new FlightInfo(obj.getString("origin"),
+							obj.getString("destination"),
+							obj.getString("departuretime"),
+							obj.getString("arrivaltime"),
+							ident.substring(0, 3), ident.substring(3));
+
+					flightList.add(info);
+				}
 				
+				//set dup to false again for next item in loop
+				dup = false;
 
 			}
 

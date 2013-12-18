@@ -16,6 +16,7 @@ public class FragmentDialog extends DialogFragment{
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_dialog, container);
 		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getDialog().setCancelable(false);
 		return view;
 	}
 	

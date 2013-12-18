@@ -39,7 +39,7 @@ public class RESTfulCalls {
 		String method = "AirlineFlightSchedules";
 		String[] inName = { "startDate", "endDate", "origin", "destination",
 				"flightno", "howMany", "offset" };
-		String[] inValue = { sDateS, eDateS, origin, destination, flight, "15",
+		String[] inValue = { sDateS, eDateS, origin, destination, flight, "30",
 				"0" };
 
 		String finalUrL = buildURL(method, inName, inValue);
@@ -79,6 +79,15 @@ public class RESTfulCalls {
 		
 		String finalUrl = buildURL(method, inName, inValue);
 		return RequestWebService.requestWebService(finalUrl);
+	}
+	
+	// set max size of howMany to 30 on app startup to persist settings
+	public void SetMaximumResultSize(){
+		String method = "SetMaximumResultSize";
+		String [] inName = {"max_size"};
+		String [] inValue = {"30"};
+		
+		RequestWebService.requestWebService(buildURL(method, inName, inValue));
 	}
 
 	// method to build REST URLs

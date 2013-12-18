@@ -14,6 +14,7 @@ public class FlightInfoExtended extends FlightInfo{
 		this.destinationCode = -1;
 		this.airlineCode = -1;
 	}
+	
 
 	public int getFlightXMLEnabled() {
 		return flightXMLEnabled;
