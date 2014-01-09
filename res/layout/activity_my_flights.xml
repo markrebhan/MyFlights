@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/my_blue3"
     android:orientation="vertical" >
-    
- 	<fragment 
- 	    android:id="@+id/fragment_title_bar_home"
- 	    android:layout_width="fill_parent"
- 	    android:layout_height="45dp"
- 	    class="com.example.myflights.FragmentTitleBar" />
  	    
     <fragment 
         android:id="@+id/fragment_body"

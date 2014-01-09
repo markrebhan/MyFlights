@@ -36,7 +36,7 @@
         android:layout_below="@+id/origin_flight_info"
         android:paddingLeft="10dp"
         android:layout_marginTop="-6dp"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/my_blue2"
         android:textSize="13sp"/>
     
     <TextView 
@@ -47,7 +47,7 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:paddingTop="-4dp"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/my_blue2"
         android:textSize="13sp"/>
     
     <TextView 

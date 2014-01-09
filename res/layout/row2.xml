@@ -3,7 +3,7 @@
     android:id="@+id/row"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/my_blue2" >
+    android:background="@drawable/gradient1" >
 
     <TextView
         android:id="@+id/flight2"
@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="2dp"
         android:text="Small Text"
         android:textSize="24sp"/>
     
@@ -29,10 +28,10 @@
     
     <ImageView
         android:id="@+id/airline_logo2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"/>
+        android:padding="5dp"/>
 
 </RelativeLayout>

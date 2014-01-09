@@ -2,6 +2,7 @@ package com.example.myflights;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -15,20 +16,14 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 
 	public static final String TAG = "ActivityMyFlights";
 	public static final String name = "com.example.myflights.flightID";
-	private static final String titleText = "My Flights";
 	ReceiverRefreshListData receiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_my_flights);
 		startService(new Intent(this, RefreshFlightDataService.class));
-		
-		// find the view for the fragment and then find the textView in that fragment and set title
-		View fragmentTB = getFragmentManager().findFragmentById(R.id.fragment_title_bar_home).getView();
-		TextView title = (TextView) fragmentTB.findViewById(R.id.title);
-		title.setText(titleText);
 		
 	}
 
@@ -46,18 +41,6 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 		super.onPause();
 		unregisterReceiver(receiver);
 	}
-
-	// onClick XML attribute from TitleBar Fragment
-	public void onClick(View view) {
-		startActivity(new Intent(this, ActivityAddFlight.class));
-
-	}
-	
-	// onClikcTitle XML attribute from TitleBar Fragment
-	public void onClickTitle(View view){
-		startService(new Intent(this, RefreshFlightDataService.class));
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu, menu);
@@ -71,8 +54,20 @@ public class ActivityMyFlights extends Activity implements OnDeleteFlightSelecte
 		case R.id.menu_refresh:
 			startService(refreshIntent);
 			return true;
+		case R.id.menu_add:
+			startActivity(new Intent(this, ActivityAddFlight.class));
+			return true;
 		case R.id.menu_prefs:
 			startActivity(new Intent(this, TEMPPrefActivity.class));
+			/*PreferencesFragment prefFrag = new PreferencesFragment();
+			FragmentTransaction trans = getFragmentManager().beginTransaction();
+			trans.replace(R.id.fragment_body, prefFrag);
+			trans.addToBackStack("Flight List");
+			trans.commit();*/
+			
+			return true;
+		///case R.id.menu_view_all:
+			//startActivity(new Intent(this, ActivityFlightInfo.class));
 		default:
 			return false;
 		}

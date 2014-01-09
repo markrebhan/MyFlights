@@ -3,12 +3,25 @@
 
     <item
         android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/menu_refresh">
     </item>
-    
+    <item
+        android:id="@+id/menu_add"
+        android:title="@string/menu_add"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="ifRoom|withText">
+    </item>
     <item
         android:id="@+id/menu_prefs"
         android:title="@string/menu_preferences">
     </item>
-    
+    <!--
+    <item
+        android:id="@+id/menu_view_all"
+        android:title="@string/menu_view_all">
+    </item>
+    -->
+
 </menu>

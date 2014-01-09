@@ -29,6 +29,8 @@
     <string name="temperature_title">Temperature</string>
     <string name="temperature_F">°F</string>
     <string name="temperature_C">°C</string>
+    <string name="menu_view_all">View All Flights</string>
+    <string name="menu_add">Add Flight</string>
     
 
 </resources>

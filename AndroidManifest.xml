@@ -26,7 +26,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo" >
+        android:theme="@style/CustomActionBarTheme" >
         
         <meta-data 
             android:name="com.google.android.gms.version"
@@ -47,7 +47,12 @@
         </activity>
         <activity
             android:name="com.example.myflights.ActivityAddFlight"
-            android:label="@string/app_name" >
+            android:label="@string/add_flight_title"
+            android:parentActivityName="com.example.myflights.ActivityMyFlights" >
+            <!--  Parent activity meta data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myflights.ActivityMyFlights" />
         </activity>
         <activity
             android:name="com.example.myflights.TEMPPrefActivity"
@@ -55,10 +60,14 @@
         </activity>
         <activity 
             android:name="com.example.myflights.ActivityFlightInfo"
-            android:label="@string/app_name">
-            
+            android:label="@string/app_name"
+            android:parentActivityName="com.example.myflights.ActivityMyFlights" >
+            <!--  Parent activity meta data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myflights.ActivityMyFlights" />
         </activity>
-
+        
         <service
             android:name="com.example.myflights.RefreshFlightDataService"
             android:exported="false" >
