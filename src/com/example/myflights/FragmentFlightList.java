@@ -3,15 +3,18 @@ package com.example.myflights;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.nfc.FormatException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +113,13 @@ public class FragmentFlightList extends Fragment {
 			long time;
 			String formattedDate = "";
 
+			//get both timezones from origin and destination
+			String timezone = cursor.getString(cursor.getColumnIndex(AirportData.C_TIMEZONE));
+			String timezone2 = cursor.getString(cursor.getColumnIndex(AirportData.C_TIMEZONE+ "2"));
+			
+			Log.d(TAG, timezone);
+			Log.d(TAG, timezone2);
+
 			int viewID = view.getId();
 			switch (viewID) {
 			case R.id.depart:
@@ -117,14 +127,11 @@ public class FragmentFlightList extends Fragment {
 				time = cursor.getLong(cursor
 						.getColumnIndex(FlightData.C_DEPART_TIME)) * 1000;
 				if (time > 0) {
-					formattedDate = new SimpleDateFormat(
-							"MM/dd/yy hh:mm aaa z", Locale.US).format(new Date(
-							time));
+					formattedDate = new TimeConvert(time, "MM/dd/yy hh:mm aaa z", timezone).convertTime();
 				}
 				// if no time available, use the date for nowS
 				else {
-					formattedDate = new SimpleDateFormat("MM/dd/yy", Locale.US)
-							.format(new Date(time));
+					formattedDate = new TimeConvert(time, "MM/dd/yy", timezone).convertTime();
 				}
 				((TextView) view).setText(formattedDate);
 				return true;
@@ -132,8 +139,7 @@ public class FragmentFlightList extends Fragment {
 				time = cursor.getLong(cursor
 						.getColumnIndex(FlightData.C_ARRIVAL_TIME)) * 1000;
 				if (time > 0) {
-					formattedDate = new SimpleDateFormat("hh:mm aaa z",
-							Locale.US).format(new Date(time));
+					formattedDate = new TimeConvert(time, "hh:mm aaa z", timezone2).convertTime();
 				}
 				((TextView) view).setText(formattedDate);
 				return true;

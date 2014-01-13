@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_blue3"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:weightSum="2" >
+
+        <fragment
+            android:id="@+id/fragment_flight_info"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1.00"
+            class="com.example.myflights.FragmentFlightInfo" />
+        
+         <fragment
+            android:id="@+id/fragment_map"
+            android:layout_marginLeft="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.example.myflights.FragmentMap" >
+        </fragment>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:baselineAligned="false"
+        android:weightSum="2" >
+
+        <fragment
+            android:id="@+id/fragment_status_bar"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_weight="1"
+            class="com.example.myflights.FragmentStatusBar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="122dp"
+        android:baselineAligned="false"
+        android:weightSum="2" >
+
+        <fragment
+            android:id="@+id/fragment_weather"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.example.myflights.FragmentWeather" >
+        </fragment>
+    </LinearLayout>
+
+    
+
+       
+  
+
+    
+
+</RelativeLayout>

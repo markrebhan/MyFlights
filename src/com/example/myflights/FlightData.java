@@ -73,7 +73,6 @@ public class FlightData {
 		if (viewAll)
 			WhereIsDeleted = "";
 
-
 		// here is a nasty SELECT statement
 		// remember that a the simplecursoradapter is looking for specific names
 		// of columns.
@@ -81,7 +80,8 @@ public class FlightData {
 				.rawQuery(
 						"SELECT f._id, p1.airport AS origin, p1.name AS origin_name, p2.airport AS destination, p2.name AS destination_name, "
 								+ "f.depart_time AS depart_time, f.arrival_time AS arrival_time, l.airline AS airline,"
-								+ " f.flight AS flight, f.status AS status, f.flightXML_enabled AS flightXML_enabled from flights AS f JOIN airports AS p1 on"
+								+ " f.flight AS flight, f.status AS status, f.flightXML_enabled AS flightXML_enabled, p1.timezone AS timezone, "
+								+ "p2.timezone AS timezone2 from flights AS f JOIN airports AS p1 on"
 								+ " f.origin = p1._id JOIN airports AS p2 on f.destination = p2._id LEFT JOIN airlines AS l"
 								+ " ON f.airline = l._id "
 								+ WhereIsDeleted
@@ -106,10 +106,12 @@ public class FlightData {
 				.rawQuery(
 						"SELECT f._id, p1.airport AS origin, p1.name AS origin_name, p2.airport AS destination, p2.name AS destination_name, "
 								+ "f.depart_time AS depart_time, f.arrival_time AS arrival_time, l.airline AS airline,"
-								+ " f.flight AS flight, f.status AS status, f.flightXML_enabled AS flightXML_enabled from flights AS f JOIN airports AS p1 on"
+								+ " f.flight AS flight, f.status AS status, f.flightXML_enabled AS flightXML_enabled, p1.timezone AS timezone, " 
+								+ "p2.timezone AS timezone2 from flights AS f JOIN airports AS p1 on"
 								+ " f.origin = p1._id JOIN airports AS p2 on f.destination = p2._id LEFT JOIN airlines AS l"
 								+ " ON f.airline = l._id "
-								+ WhereID + " ORDER BY f.depart_time", null);
+								+ WhereID
+								+ " ORDER BY f.depart_time", null);
 
 		return cursor;
 	}
@@ -158,7 +160,7 @@ public class FlightData {
 		values.put(C_IS_DELETED, 1);
 		// mark deleted flights as arrived;
 		values.put(C_STATUS, 4);
-		long currentDate = CurrentDate.currentDate() / 1000;
+		long currentDate = System.currentTimeMillis() / 1000;
 		long delayedDate = currentDate + 11000;
 		db = dbHelper.getWritableDatabase();
 		int rowsAffected = db.update(TABLE, values, "((" + C_ARRIVAL_TIME + "<"

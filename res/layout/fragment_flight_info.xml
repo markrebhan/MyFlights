@@ -80,9 +80,10 @@
 
     <ImageView
         android:id="@+id/arrow_image"
-        android:layout_width="50dp"
-        android:layout_height="35dp"
-        android:layout_above="@+id/arrive_flight_info"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_above="@+id/origin_name_flight_info"
+        android:layout_centerHorizontal="true" 
+        android:src="@drawable/ic_action_forward"/>
 
 </RelativeLayout>

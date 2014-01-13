@@ -1,13 +1,8 @@
 package com.example.myflights;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,12 +53,17 @@ public class FragmentFlightInfo extends Fragment {
 			long depart = cursor.getLong(cursor.getColumnIndex(FlightData.C_DEPART_TIME))*1000;
 			long arrive = cursor.getLong(cursor.getColumnIndex(FlightData.C_ARRIVAL_TIME))*1000;
 			
-			String dDate = new SimpleDateFormat("EEEE, MM/dd/yy", Locale.US).format(new Date(depart));
-			String aDate = new SimpleDateFormat("EEEE, MM/dd/yy", Locale.US).format(new Date(arrive));
+			// get timezone info that was added to DB query 1/12
+			String timezoneOrigin = cursor.getString(cursor.getColumnIndex(AirportData.C_TIMEZONE));
+			String timezoneDestination = cursor.getString(cursor.getColumnIndex(AirportData.C_TIMEZONE + "2"));
 			
-			departTime.setText(new SimpleDateFormat("hh:mm aaa z", Locale.US).format(new Date(depart)));
+			String dDate = new TimeConvert(depart, "EEEE, MM/dd/yy", timezoneOrigin).convertTime();
+			String aDate = new TimeConvert(arrive, "EEEE, MM/dd/yy", timezoneDestination).convertTime();
+			
+			
+			departTime.setText(new TimeConvert(depart, "hh:mm aaa z", timezoneOrigin).convertTime());
 			departDate.setText(dDate);
-			arriveTime.setText(new SimpleDateFormat("hh:mm aaa z", Locale.US).format(new Date(arrive)));
+			arriveTime.setText(new TimeConvert(arrive, "hh:mm aaa z", timezoneDestination).convertTime());
 			// if the arrival date is different than the departure date, display the arrival date
 			if(!dDate.equals(aDate)) arriveDate.setText(aDate);
 			

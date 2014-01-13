@@ -3,7 +3,8 @@
     android:id="@+id/row"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient0" >
+    android:background="@drawable/row_states"
+     >
 
     <TextView 
         android:id="@+id/flightaware"

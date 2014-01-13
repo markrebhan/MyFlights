@@ -55,7 +55,7 @@ public class DataValidation {
 	//TODO validate again if an actual time is found in API
 	private boolean validDate(String text) {
 		boolean valid = false;
-		long currentDateEpoch = CurrentDate.currentDate(-86400000);
+		long currentDateEpoch = System.currentTimeMillis() -86400000l;
 		currentDateEpoch /= 1000;
 		long selectedDate = Long.valueOf(text).longValue();
 		if (selectedDate > currentDateEpoch) valid = true;
