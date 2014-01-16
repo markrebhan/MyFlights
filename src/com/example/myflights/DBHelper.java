@@ -8,7 +8,7 @@ import android.util.Log;
 //DB Helper class to help build/update DB on create
 class DbHelper extends SQLiteOpenHelper {
 	public static final String DB_NAME = "flightdata.db";
-	public static final int DB_VERSION = 61;
+	public static final int DB_VERSION = 62;
 	public static final String TAG = "DBHelper";
 
 	public DbHelper(Context context) {
@@ -46,9 +46,9 @@ class DbHelper extends SQLiteOpenHelper {
 		db.execSQL(sql);
 
 		Log.d(TAG, "Created Table: " + sql);
-
 		
-
+		MyFlightsApp.flightData.airportData.insertAllAirportData();
+		MyFlightsApp.flightData.airlineData.insertAllAirlineData();
 	}
 
 	@Override
