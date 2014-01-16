@@ -28,7 +28,7 @@ public class RequestWebService {
 		// set authentication for flightXML
 		Authenticator.setDefault(new Authenticator() {
 		     protected PasswordAuthentication getPasswordAuthentication() {
-		       return new PasswordAuthentication("vpersaud03", "c83c50fb031891db4aa72abf2f2f62fa5aa91de4".toCharArray());
+		       return new PasswordAuthentication("", "".toCharArray());
 		     
 		   }
 		 });
